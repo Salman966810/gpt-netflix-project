@@ -1,9 +1,11 @@
-import './style/style.css'
-
+import BodyContainer from "./components/BodyContainer";
+import "./style/style.css"
 const App = () => {
-  return <div className=''>
-    hello Salman
-  </div>;
+  return (
+    <>
+      <BodyContainer />
+    </>
+  );
 };
 
 export default App;
