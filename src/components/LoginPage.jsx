@@ -2,24 +2,51 @@ import { useState, useRef } from "react";
 import bgImage from "../assets/bg.jpg"; // Adjust filename if needed
 import Header from "./Header";
 import { validation } from "../utils/validation";
+import {  createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebaseConfig";
 const LoginPage = () => {
+ 
   const [isSignUpForm, setIsSignUpForm] = useState(true);
-  const [emailOrPwErrorMsg , setEmailOrPwErrorMsg] = useState('');
+  const [emailOrPwErrorMsg, setEmailOrPwErrorMsg] = useState("");
 
   const email = useRef(null);
   const password = useRef(null);
+
   const handleFormValidation = () => {
-    // console.log(email.current.value);
-    // console.log(password.current.value);
+   
     const msg = validation(email.current.value, password.current.value);
     setEmailOrPwErrorMsg(msg);
-    console.log(msg)
+
+    if (msg) return;
+    if (!isSignUpForm) {
+      console.log("vanakkam da")
+     
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    } else {
+      console.log("poda venna")
+    }
   };
 
   function handleFormState() {
     setIsSignUpForm(!isSignUpForm);
   }
 
+  
   return (
     <div className="relative">
       <img
