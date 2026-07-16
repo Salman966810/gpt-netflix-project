@@ -2,10 +2,13 @@ import { useState, useRef } from "react";
 import bgImage from "../assets/bg.jpg"; // Adjust filename if needed
 import Header from "./Header";
 import { validation } from "../utils/validation";
-import {  createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../utils/firebaseConfig";
+
 const LoginPage = () => {
- 
   const [isSignUpForm, setIsSignUpForm] = useState(true);
   const [emailOrPwErrorMsg, setEmailOrPwErrorMsg] = useState("");
 
@@ -13,32 +16,41 @@ const LoginPage = () => {
   const password = useRef(null);
 
   const handleFormValidation = () => {
-   
     const msg = validation(email.current.value, password.current.value);
     setEmailOrPwErrorMsg(msg);
 
     if (msg) return;
     if (!isSignUpForm) {
-      console.log("vanakkam da")
-     
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value,
       )
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
           console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setEmailOrPwErrorMsg(errorCode + " " + errorMessage);
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value,
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("signed/Login successfully");
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          // ..
+          setEmailOrPwErrorMsg(errorCode + " " + errorMessage);
         });
-    } else {
-      console.log("poda venna")
     }
   };
 
@@ -46,7 +58,6 @@ const LoginPage = () => {
     setIsSignUpForm(!isSignUpForm);
   }
 
-  
   return (
     <div className="relative">
       <img
