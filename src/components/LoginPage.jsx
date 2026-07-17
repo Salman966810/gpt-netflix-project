@@ -1,14 +1,20 @@
 import { useState, useRef } from "react";
-import bgImage from "../assets/bg.jpg"; 
+import bgImage from "../assets/bg.jpg";
 import Header from "./Header";
 import { validation } from "../utils/validation";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebaseConfig";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const LoginPage = () => {
+  const navigator = useNavigate();
+    const dispatcher = useDispatch();
   const [isSignUpForm, setIsSignUpForm] = useState(true);
   const [emailOrPwErrorMsg, setEmailOrPwErrorMsg] = useState("");
 
@@ -18,6 +24,7 @@ const LoginPage = () => {
   const handleFormValidation = () => {
     const msg = validation(email.current.value, password.current.value);
     setEmailOrPwErrorMsg(msg);
+    console.log(typeof msg)
 
     if (msg) return;
     if (!isSignUpForm) {
@@ -28,7 +35,28 @@ const LoginPage = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          
+          updateProfile(auth.currentUser, {
+            displayName: "SALMAN FARIZ J",
+            phoneNumber: 9134567890,
+            photoURL:'../assets/LOGO.svg'
+          })
+            .then(() => {
+               const { uid, displayName, email, phoneNumber , photoURL } = auth.currentUser;
+                      dispatcher(
+                        addUser({
+                          uid: uid,
+                          email: email,
+                          displayName: displayName,
+                          phoneNumber: phoneNumber,
+                          photoURL:photoURL
+                        }),
+                      );
+              navigator("/browse");
+            })
+            .catch((error) => {
+              setEmailOrPwErrorMsg(error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -43,13 +71,16 @@ const LoginPage = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
+          const checkEmail = user.email;
+          const checckiD = user.uid;
           console.log("signed/Login successfully");
-          // ...
+          navigator("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setEmailOrPwErrorMsg(errorCode + " " + errorMessage);
+          navigator("/");
         });
     }
   };
@@ -79,28 +110,28 @@ const LoginPage = () => {
           <input
             type="text"
             placeholder="Enter Your Name"
-            className="border my-4 p-2"
+            className="border-4  border-red-500 rounded-b-sm my-4 p-2"
           />
         )}
         <input
           ref={email}
           type="email"
           placeholder="Enter Your Mail"
-          className="border my-2 p-2"
+          className="border-4  border-red-500  rounded-b-sm my-2 p-2"
         />
 
         <input
           ref={password}
           type="password"
           placeholder="Enter Your Password"
-          className="border my-2 p-2"
+          className="border-4  border-red-500 rounded-b-sm my-2 p-2"
         />
 
         <p className="font-bold text-xs text-red-500">{emailOrPwErrorMsg}</p>
 
         <button
           onClick={handleFormValidation}
-          className="bg-red-950 text-white p-2 rounded cursor-pointer"
+          className="bg-red-600 text-white p-2 rounded cursor-pointer"
         >
           {isSignUpForm ? "Sign In" : "Sign Up"}
         </button>
