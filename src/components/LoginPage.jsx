@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import bgImage from "../assets/bg.jpg"; // Adjust filename if needed
+import bgImage from "../assets/bg.jpg"; 
 import Header from "./Header";
 import { validation } from "../utils/validation";
 import {
