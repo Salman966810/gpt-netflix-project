@@ -1,5 +1,5 @@
 import Header from "./Header";
-import { API_OPTIONS } from "../constants";
+import { API_OPTIONS } from "../../constants";
 import { useEffect } from "react";
 const Browse = () => {
   const getNowPlayingMoviesList = async () => {

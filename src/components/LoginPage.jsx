@@ -11,7 +11,7 @@ import { auth } from "../utils/firebaseConfig";
 
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { USER_ICON } from "../constants";
+import { USER_ICON } from "../../constants";
 const LoginPage = () => {
   const dispatcher = useDispatch();
   const [isSignUpForm, setIsSignUpForm] = useState(true);

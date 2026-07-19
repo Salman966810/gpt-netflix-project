@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
-import { USER_ICON } from "../constants";
+import { USER_ICON } from "../../constants";
 const Header = ({ isBrowse = false }) => {
   const dispatcher = useDispatch();
   const navigator = useNavigate();
