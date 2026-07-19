@@ -8,13 +8,12 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebaseConfig";
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-
+import { USER_ICON } from "../constants";
 const LoginPage = () => {
-  const navigator = useNavigate();
-    const dispatcher = useDispatch();
+  const dispatcher = useDispatch();
   const [isSignUpForm, setIsSignUpForm] = useState(true);
   const [emailOrPwErrorMsg, setEmailOrPwErrorMsg] = useState("");
 
@@ -24,7 +23,7 @@ const LoginPage = () => {
   const handleFormValidation = () => {
     const msg = validation(email.current.value, password.current.value);
     setEmailOrPwErrorMsg(msg);
-    console.log(typeof msg)
+    console.log(typeof msg);
 
     if (msg) return;
     if (!isSignUpForm) {
@@ -35,24 +34,21 @@ const LoginPage = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
-          
+
           updateProfile(auth.currentUser, {
-            displayName: "SALMAN FARIZ J",
-            phoneNumber: 9134567890,
-            photoURL:'../assets/LOGO.svg'
+            displayName: user.displayName,
+            email: user.email,
           })
             .then(() => {
-               const { uid, displayName, email, phoneNumber , photoURL } = auth.currentUser;
-                      dispatcher(
-                        addUser({
-                          uid: uid,
-                          email: email,
-                          displayName: displayName,
-                          phoneNumber: phoneNumber,
-                          photoURL:photoURL
-                        }),
-                      );
-              navigator("/browse");
+              const { uid, displayName, email } = auth.currentUser;
+              dispatcher(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: USER_ICON,
+                }),
+              );
             })
             .catch((error) => {
               setEmailOrPwErrorMsg(error.message);
@@ -70,17 +66,15 @@ const LoginPage = () => {
         password.current.value,
       )
         .then((userCredential) => {
-          const user = userCredential.user;
-          const checkEmail = user.email;
-          const checckiD = user.uid;
+          // const user = userCredential.user;
+          // const checkEmail = user.email;
+          // const checckiD = user.uid;
           console.log("signed/Login successfully");
-          navigator("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setEmailOrPwErrorMsg(errorCode + " " + errorMessage);
-          navigator("/");
         });
     }
   };
