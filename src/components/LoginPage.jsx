@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useRef } from "react";
 import bgImage from "../assets/bg.jpg";
 import Header from "./Header";
@@ -23,7 +24,7 @@ const LoginPage = () => {
   const handleFormValidation = () => {
     const msg = validation(email.current.value, password.current.value);
     setEmailOrPwErrorMsg(msg);
-    console.log(typeof msg);
+    // console.log(typeof msg);
 
     if (msg) return;
     if (!isSignUpForm) {
@@ -66,6 +67,7 @@ const LoginPage = () => {
         password.current.value,
       )
         .then((userCredential) => {
+          // WE CAN GET userCredential AFTER THE PROMISE RESULT
           // const user = userCredential.user;
           // const checkEmail = user.email;
           // const checckiD = user.uid;
