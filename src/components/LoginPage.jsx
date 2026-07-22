@@ -71,7 +71,7 @@ const LoginPage = () => {
           // const user = userCredential.user;
           // const checkEmail = user.email;
           // const checckiD = user.uid;
-          console.log("signed/Login successfully");
+          // console.log("signed/Login successfully");
         })
         .catch((error) => {
           const errorCode = error.code;

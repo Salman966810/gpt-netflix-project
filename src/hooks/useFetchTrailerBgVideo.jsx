@@ -6,7 +6,7 @@ import { useEffect } from "react";
 const useFetchTrailerBgVideo = ({ movieId }) => {
   const disptach = useDispatch();
   const fetchBgMovieTrailer = async () => {
-    console.log("trailer api called")
+    // console.log("trailer api called")
     const response = await fetch(
       "https://api.themoviedb.org/3/movie/" +
         movieId +
@@ -14,7 +14,7 @@ const useFetchTrailerBgVideo = ({ movieId }) => {
       API_OPTIONS,
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
 
     const filterTrailersOnly = data.results?.filter(
       (video) => video.type === "Trailer",

@@ -1,12 +1,11 @@
+import MoviesList from "./MoviesList";
+import { useSelector } from "react-redux";
 const ListOfMovies = () => {
+  const movies = useSelector((store) => store.NPmovies);
   return (
     <div>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. In praesentium
-        quisquam quasi ratione beatae est excepturi dolorem repellendus maiores
-        repellat, eligendi ut eius aperiam qui sequi eos itaque culpa
-        distinctio.
-      </p>
+      <MoviesList title={"Trending Movies"} movies={movies.nowPlayingMovies} />
+       <MoviesList title={"Trending Movies"} movies={movies.topRatedMovies} />
     </div>
   );
 };

@@ -4,10 +4,12 @@ import useGetNPmovies from "../hooks/useGetNPmovies";
 import HeroTrailerContainer from "./Home/HeroTrailerContainer";
 import ListOfMovies from "./Home/ListOfMovies";
 import { useEffect } from "react";
+import useFetchTopRated from "../hooks/useFetchTopRated";
 const Browse = () => {
 
 
-  useGetNPmovies()
+  useGetNPmovies();
+  useFetchTopRated();
   return (
     <div>
       <Header isBrowse />

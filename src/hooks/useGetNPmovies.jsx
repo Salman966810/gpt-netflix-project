@@ -6,7 +6,7 @@ import { addToNowPlayMovies } from "../utils/movieSlicer";
 const useGetNPmovies = () => {
   const dispatcherForMovies = useDispatch();
   const getNowPlayingMoviesList =  () => {
-    console.log("oh my gooodd")
+   
   
     fetch(
       "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
@@ -20,7 +20,7 @@ const useGetNPmovies = () => {
   };
 
   useEffect(() => {
-    // console.log("useEffect Executed")
+    
     getNowPlayingMoviesList();
   }, []);
 };
